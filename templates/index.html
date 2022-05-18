@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bienvenue</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
+        <!-- Bootstrap JS file -->
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        <style>
+            #dec, #gr{
+                float:right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container"><br><a class="btn btn-danger" href="{% url 'logout' %}" id="dec">Déconnexion</a>
+            <h3> Gestions des Collections</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <input class="form-control" id="myInput" type="text" placeholder="Rechercher.."><p>{{ nb }}</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="pre-scrollable">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Realisateur</th>
+                            <th>Contenu</th>
+                            <th>Date</th>
+                            <th>Categorie</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        {% for Collec in Collections %}
+        
+                        <tr>
+                            <td>{{ Collec.Titre }}</td>
+                            <td>{{ Collec.Realisateur }}</td>
+                            <td>{{ Collec.Contenu }}</td>
+                            <td>{{ Collec.Date|date:"d-m-Y" }}</td>
+                            <td>{{ Collec.Categorie }}</td>
+                            <td>
+                                <a class="btn btn-info" href="/edit/{{ Collec.id }}"><img src="{% static 'images/glyphicons-151-edit.png' %}"></a>
+                                <a class="btn btn-danger" href="/delete/{{ Collec.id }}"><img src="{% static 'images/glyphicons-17-bin.png' %}"></a>
+                            </td>
+                        </tr>
+        
+                        {% endfor %}
+        
+                    </tbody>
+                </table>
+            </div><br>
+            <a class="btn btn-primary" href="/add_collection/">Ajouter Collections</a>
+            <a class="btn btn-success" href="/pie_chart" id="gr">Graphes Résumés</a>
+        </div>
+    </body>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+              var value = $(this).val().toLowerCase();
+              $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+              });
+            });
+          });
+    </script>
+</html>

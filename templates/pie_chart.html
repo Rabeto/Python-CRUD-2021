@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Bienvenue</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
+        <!-- Bootstrap JS file -->
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+        <style>
+            #dec{
+                float:right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container"><br>
+            <h3> Gestions des Collections</h3>
+            <script type='text/javascript' src='{% static 'js/Chart.min.js' %}'></script>
+                    <div class='card'>
+                        <div class='card-header'><button class='btn btn-success'onclick='save()' id='btn-save'><img src="{% static 'images/glyphicons-16-print.png' %}"></button>&nbsp;<a class="btn btn-danger" href="/index" id='a'>Retour</a></div>
+                            <div class='card-body'>
+                                <div id='chart-container' id='chart'>
+                                    <canvas id='mycanvas'></canvas><br>
+                                 </div>
+                            </div>
+                        <div class='card-footer'></div>
+                    </div>
+               <script>
+                    graph('bar','mycanvas');
+                    //graph('line','mycanvas');
+                    //graph('polarArea','mycanvas');
+                    //graph('pie','mycanvas');
+                    //graph('radar','mycanvas');
+                    //graph('doughnut','mycanvas');
+    
+                    function graph(graph,a){
+                        var ctx = document.getElementById(a).getContext('2d');
+                        var barGraph = new Chart(ctx, {
+                            type: graph,
+                            data: {
+                            labels: ["Films","Séries","Livres","Jeux"],
+                            datasets :
+                            [{
+                                label: 'Effectifs des Collections',
+                                backgroundColor: ['#ff0000', '#0000ff', '#ff0080', '#73fff'],
+                                borderColor: ['#ff0000', '#0000ff', '#ff0080', '#73fff'],
+                                hoverBackgroundColor: ['#ff0000', '#0000ff', '#ff0080', '#73fff'],
+                                hoverBorderColor: ['#ff0000', '#0000ff', '#ff0080', '#73fff'],
+                                data: ["{{ nb_F }}","{{ nb_S }}","{{ nb_L }}","{{ nb_J }}"]
+                            }]
+                            }
+                        });
+                    }
+
+                    function save(){
+                        window.print();
+                    }
+                </script>
+        </div>
+    </body>
+</html>

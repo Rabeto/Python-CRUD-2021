@@ -1,0 +1,53 @@
+{% load static %}
+<!Doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Edit Collection</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+
+    <body>
+        <div class="small_div">
+            <div class="container"><br>
+                <h2>Modifier Collection</h2><hr>
+                <form action="/update/{{ Collections.id }}">
+
+                    {% csrf_token %}
+
+                    <label class="form-group" for="titre">Titre: </label>
+                    <input class="form-control" type="text" name="titre" value="{{ Collections.Titre }}" required>
+            
+                    <label class="form-group" for="realisateur">Realisateur: </label>
+                    <input class="form-control" type="text" name="realisateur" value="{{ Collections.Realisateur }}" required>
+            
+                    <label class="form-group" for="contenu">Contenu: </label>
+                    <input class="form-control" type="text" name="contenu" value="{{ Collections.Contenu }}" required><br>
+
+                    <label for="date" class="form-group">Date: </label>
+                    <input type="date" class="form-control" name="date" value="{{ Collections.Date|date:'Y-m-d' }}" required>
+
+                    <label for="categorie" class="form-group">Categorie</label>
+                    <select name="categorie" class="form-control">
+                        {% if Collections.Categorie == "Films" %}
+                            print("<option>Films</option><option>Jeux</option><option>Séries</option><option>Livres</option>")
+                        {% elif Collections.Categorie == "Jeux" %}
+                            print("<option>Jeux</option><option>Films</option><option>Séries</option><option>Livres</option>")
+                        {% elif Collections.Categorie == "Livres" %}
+                            print("<option>Livres</option><option>Films</option><option>Jeux</option><option>Séries</option>")
+                        {% else %}
+                            print("<option>Séries</option><option>Jeux</option><option>Films</option><option>Livres</option>")
+                        {% endif %}
+                    </select>
+            
+                    <br><input class="btn btn-primary" type="submit" value="Editer">
+                    <a class="btn btn-danger" href="/index">Annuler</a>
+            
+                </form>     
+            </div>
+        </div>
+    </body>
+</html>
